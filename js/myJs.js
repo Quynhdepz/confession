@@ -44,7 +44,21 @@ $(document).ready(function () {
     });
   }
 
-  // Hàm di chuyển nút "Tất nhiên là không" đến vị trí ngẫu nhiên
+  // Hàm đổi vị trí nút "Yes" và "No"
+  function switchButton() {
+    var audio = new Audio("sound/duck.mp3");
+    audio.play();
+    var leftNo = $("#no").css("left");
+    var topNo = $("#no").css("top");
+    var leftYes = $("#yes").css("left");
+    var topYes = $("#yes").css("top");
+    $("#no").css("left", leftYes);
+    $("#no").css("top", topYes);
+    $("#yes").css("left", leftNo);
+    $("#yes").css("top", topNo);
+  }
+
+  // Hàm di chuyển nút "No" đến vị trí ngẫu nhiên
   function moveButton() {
     var audio = new Audio("sound/Swish1.mp3");
     audio.play();
@@ -61,12 +75,22 @@ $(document).ready(function () {
     $("#no").css("top", top);
   }
 
-  // Xử lý sự kiện di chuột qua hoặc nhấn vào nút "Tất nhiên là không"
-  $("#no").on("mousemove click", function () {
-    moveButton();
+  // Xử lý sự kiện di chuột qua hoặc nhấn vào nút "No"
+  var n = 0;
+  $("#no").mousemove(function () {
+    if (n === 0) {
+      switchButton(); // Lần đầu tiên đổi vị trí nút
+    } else {
+      moveButton(); // Các lần tiếp theo di chuyển nút
+    }
+    n++;
   });
 
-  // show popup
+  $("#no").click(() => {
+    if (screen.width >= 900) switchButton();
+  });
+
+  // Hiển thị popup khi nhấn nút "Yes"
   $("#yes").click(function () {
     var audio = new Audio("sound/tick.mp3");
     audio.play();
@@ -112,13 +136,12 @@ $(document).ready(function () {
       }
     });
 
-    $("#txtReason").focus(function () {
-      var handleWriteText = setInterval(function () {
-        textGenerate();
-      }, 10);
-      $("#txtReason").blur(function () {
-        clearInterval(handleWriteText);
-      });
+    // Hàm tự động trả lời
+    $("#txtReason").on("input", function () {
+      var inputText = $(this).val();
+      var text9 = textConfig.text9;
+      var generatedText = text9.substring(0, inputText.length);
+      $(this).val(generatedText);
     });
   });
 });
