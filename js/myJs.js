@@ -9,8 +9,7 @@ const textConfig = {
   text8: "Xác Nhận",
   text9: "Không khi nào là tôi ko gay!!!!!!!!!!",
   text10: "Hãy đầu thú để nhận khoan hồng",
-  text11:
-    "Mong anh thành thật với xã hội về giới tính riêng của mình",
+  text11: "Mong anh thành thật với xã hội về giới tính riêng của mình",
   text12: "Next",
 };
 
@@ -45,20 +44,7 @@ $(document).ready(function () {
     });
   }
 
-  // switch button position
-  function switchButton() {
-    var audio = new Audio("sound/duck.mp3");
-    audio.play();
-    var leftNo = $("#no").css("left");
-    var topNO = $("#no").css("top");
-    var leftY = $("#yes").css("left");
-    var topY = $("#yes").css("top");
-    $("#no").css("left", leftY);
-    $("#no").css("top", topY);
-    $("#yes").css("left", leftNo);
-    $("#yes").css("top", topNO);
-  }
-  // move random button póition
+  // Hàm di chuyển nút "Tất nhiên là không" đến vị trí ngẫu nhiên
   function moveButton() {
     var audio = new Audio("sound/Swish1.mp3");
     audio.play();
@@ -75,35 +61,10 @@ $(document).ready(function () {
     $("#no").css("top", top);
   }
 
-  var n = 0;
-  $("#no").mousemove(function () {
-    if (n < 1) switchButton();
-    if (n > 1) moveButton();
-    n++;
+  // Xử lý sự kiện di chuột qua hoặc nhấn vào nút "Tất nhiên là không"
+  $("#no").on("mousemove click", function () {
+    moveButton();
   });
-  $("#no").click(() => {
-    if (screen.width >= 900) switchButton();
-  });
-
-  // generate text in input
-  function textGenerate() {
-    var n = "";
-    var text = " " + textConfig.text9;
-    var a = Array.from(text);
-    var textVal = $("#txtReason").val() ? $("#txtReason").val() : "";
-    var count = textVal.length;
-    if (count > 0) {
-      for (let i = 1; i <= count; i++) {
-        n = n + a[i];
-        if (i == text.length + 1) {
-          $("#txtReason").val("");
-          n = "";
-          break;
-        }
-      }
-    }
-    $("#txtReason").val(n);
-  }
 
   // show popup
   $("#yes").click(function () {
