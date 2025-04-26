@@ -62,7 +62,7 @@ $(document).ready(function () {
   function moveButton() {
     var audio = new Audio("sound/Swish1.mp3");
     audio.play();
-    if (screen.width <= 600) {
+    if ($(window).width() <= 600) {
       var x = Math.random() * 300;
       var y = Math.random() * 500;
     } else {
@@ -77,7 +77,8 @@ $(document).ready(function () {
 
   // Xử lý sự kiện di chuột qua hoặc nhấn vào nút "No"
   var n = 0;
-  $("#no").mousemove(function () {
+  $("#no").on("mousemove touchstart", function (event) {
+    event.preventDefault();
     if (n === 0) {
       switchButton(); // Lần đầu tiên đổi vị trí nút
     } else {
@@ -87,7 +88,7 @@ $(document).ready(function () {
   });
 
   $("#no").click(() => {
-    if (screen.width >= 900) switchButton();
+    if ($(window).width() >= 900) switchButton();
   });
 
   // Hiển thị popup khi nhấn nút "Yes"
